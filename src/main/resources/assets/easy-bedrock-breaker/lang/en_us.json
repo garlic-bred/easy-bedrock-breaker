@@ -1,4 +1,4 @@
 {
-  "key.bread.delayBlockPackets": "Delay Block C2S Packets",
-  "category.bread.breadclient": "Bread Client"
+  "key.bread.delayBlockPackets": "Delay Packets",
+  "category.bread.breadclient": "Easy Bedrock Breaker"
 }
