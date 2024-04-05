@@ -6,7 +6,10 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.network.packet.Packet;
@@ -31,8 +34,7 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 			PlayerInputC2SPacket.class,
 			PlayerInteractBlockC2SPacket.class,
 			PlayerInteractItemC2SPacket.class,
-			QueryBlockNbtC2SPacket.class,
-			UpdatePlayerAbilitiesC2SPacket.class
+			UpdateSelectedSlotC2SPacket.class
 	};
 
 	@Override
@@ -41,6 +43,11 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 		ClientTickEvents.START_CLIENT_TICK.register(client -> {
 			if (!activateKey.isPressed()) releasePackets();
 		});
+
+		HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
+            if (EasyBedrockBreaker.isDelayingPackets())
+				MinecraftClient.getInstance().textRenderer.draw("delaying packets", 4, drawContext.getScaledWindowHeight() - 4 - MinecraftClient.getInstance().textRenderer.fontHeight, 0xffffffff, true, drawContext.getMatrices().peek().getPositionMatrix(), drawContext.getVertexConsumers(), TextRenderer.TextLayerType.NORMAL, 0x00000000, 1);
+        });
 
 		LOGGER.info("easy bedrock breaker initialized");
 	}
