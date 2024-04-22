@@ -27,6 +27,8 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 
 	private static ArrayList<Packet<?>> delayedPackets = new ArrayList<>();
 
+	private static boolean delayToggle = false;
+
 	private static KeyBinding activateKey;
 
 	public static final Class[] blockedPackets = {
@@ -40,8 +42,12 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		activateKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.bread.delayBlockPackets", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "category.bread.breadclient"));
-		ClientTickEvents.START_CLIENT_TICK.register(client -> {
-			if (!activateKey.isPressed()) releasePackets();
+
+		ClientTickEvents.END_CLIENT_TICK.register(client -> {
+			while (activateKey.wasPressed()) {
+				delayToggle = !delayToggle;
+			}
+			if (!delayToggle) releasePackets();
 		});
 
 		HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {
@@ -53,7 +59,7 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 	}
 
 	public static boolean isDelayingPackets() {
-		return activateKey.isPressed();
+		return delayToggle;
 	}
 
 	public static void delayPacket(Packet<?> p) {
