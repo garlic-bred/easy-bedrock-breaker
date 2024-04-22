@@ -41,7 +41,7 @@ public class EasyBedrockBreaker implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		activateKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.bread.delayBlockPackets", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "category.bread.breadclient");
+		activateKey = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.bread.delayBlockPackets", InputUtil.Type.KEYSYM, InputUtil.UNKNOWN_KEY.getCode(), "category.bread.breadclient"));
 
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 			while (activateKey.wasPressed()) {
