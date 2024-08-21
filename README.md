@@ -1,5 +1,7 @@
 # Easy Bedrock Breaker
 
+# For 1.21 this mod has been moved to [breadclient](https://github.com/garlic-bred/breadclient)
+
 It's lag based bedrock breaking but you lag your client instead of the server.
 In case you have never heard of lag based bedrock breaking, [here](https://youtu.be/FL0VHAQLPJs) is a video about it.
 
